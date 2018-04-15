@@ -34,8 +34,10 @@ for line in input_file:
 for record in records:
 	print(record)
 
-	git init
-git add README.md
-git commit -m "first commit"
-git remote add origin https://github.com/somebody422/nypd_data_project.git
-git push -u origin master
+
+# Next step: Data cleaning!
+# Try creating several versions of "attributes" and "records". Each
+#  Will only have the attribtues we are interested in.
+#  Do this with references somehow? Don't really want multiple copies of 
+#  that large database..
+

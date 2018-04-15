@@ -12,3 +12,12 @@ Map of fatal accidents
 Map of bicyclist accidents
 .. ect...
 
+* Some simple counting things..
+What percentage of injured people are bicyclists?
+Graph of accident frequency based on month, day of week, ect
+
+* Clustering: Just run some clustering algorithms see what they spit out. Are there a few different categories? I suspect Long/Lat will have a pretty big effect here, so try clustering without those.
+
+* Run the CC-coefficents part of PCA
+
+* Cross-reference with weather data? See if there is a connection between storms, snow, ect, and accidents
