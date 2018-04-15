@@ -1,0 +1,14 @@
+
+
+
++++++++++++++++++++++++++++++++++++
+SOME THINGS TO TRY:
+
+* Where are accidents happening? To determine this, find distances between the longitude and latitude of the data points. visualize and look for clusters. MAYBE overlay a map? Or just find clusters and pin that on a map, take a screenshot.
+Should weight accidents with more deaths or damages?
+maybe: create a few maps. some examples:
+Map of all accidents
+Map of fatal accidents
+Map of bicyclist accidents
+.. ect...
+
