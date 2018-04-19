@@ -21,3 +21,5 @@ Graph of accident frequency based on month, day of week, ect
 * Run the CC-coefficents part of PCA
 
 * Cross-reference with weather data? See if there is a connection between storms, snow, ect, and accidents
+Compare normal and storm days
+
