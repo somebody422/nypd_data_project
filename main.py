@@ -73,7 +73,7 @@ for strline in input_file:
 	fields = strline.split(',')
 	line = []
 	for i in range(len(fields)):
-		field = fields[i].strip()
+		field = fields[i]#.strip()
 		#print("Field: " + str(field))
 		if isNumber(field):
 			line.append(float(field))
@@ -121,21 +121,15 @@ print(records_matrix_transposed)
 #gc.collect()
 
 # Plot the long/lat of the accidents
-
-print("\nX values are latitude:")
-print(records_matrix_transposed[index_of_attribute["LONGITUDE"]])
-
-print("\nY values are longitude:")
-print(records_matrix_transposed[index_of_attribute["LATITUDE"]])
 figure, axes = pyplot.subplots(1, 1)
 axes.plot(
 	records_matrix_transposed[index_of_attribute["LONGITUDE"]],
-	records_matrix_transposed[index_of_attribute["LATITUDE"]]
-	#linestyle = 'None'
+	records_matrix_transposed[index_of_attribute["LATITUDE"]],
+	'k.'
 )
 pyplot.show()
 
-
+# Next, decide how to plot a LARGE number of accidents: cluster points and display the clusters?
 
 
 

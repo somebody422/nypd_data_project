@@ -3,6 +3,18 @@ import os
 import re
 
 
+# Takes a look at the record, and decides if it should be
+#  kept or discarded
+def keepRecord(split_record, index_of_attribute):
+	print("\nkeepRecord: " + str(split_record))
+	print("Latitude = " + split_record[index_of_attribute['LATITUDE']])
+	print("Longitude = " + split_record[index_of_attribute['LONGITUDE']])
+	#if float(split_record[index_of_attribute['LATITUDE']]) == 0 or float(split_record[index_of_attribute['LONGITUDE']]) == 0:
+	if split_record[index_of_attribute['LATITUDE']] == '' or split_record[index_of_attribute['LONGITUDE']] == '':
+		print("Throwing away record: " + str(split_record))
+		return False
+	return True
+
 
 attributes_to_keep = [
 	'DATE', 'TIME', 'BOROUGH', 'ZIP CODE', 'LATITUDE', 'LONGITUDE', 'ON STREET NAME', 'CROSS STREET NAME', 'OFF STREET NAME', 'NUMBER OF PERSONS INJURED', 'NUMBER OF PERSONS KILLED', 'NUMBER OF PEDESTRIANS INJURED', 'NUMBER OF PEDESTRIANS KILLED', 'NUMBER OF CYCLIST INJURED', 'NUMBER OF CYCLIST KILLED', 'NUMBER OF MOTORIST INJURED', 'NUMBER OF MOTORIST KILLED'
@@ -67,17 +79,26 @@ for i in range(len(split_attributes)):
 		attribute_indexes.append(i)
 		output_file.write(attribute + ',')
 # Seek backwards one byte, to overwrite that last comma
-#output_file.seek(-1, 1)
+output_file.seek(-1, 1)
 output_file.write('\n')
 print("Indexes to use: " + str(attribute_indexes))
 
+# Create map of attribute name to attribute index
+index_of_attribute = {}
+for i in range(len(split_attributes)):
+	index_of_attribute[split_attributes[i]] = i
+print("\nIndexes:")
+print(index_of_attribute)
 
 # Iterate through remaining lines and parse all of the data entries.
 for line in lines[first_line_with_text+1:]:
 	split_line = line.split(',')
+	if not keepRecord(split_line, index_of_attribute):
+		continue
 	for i in attribute_indexes:
-		output_file.write(split_line[i] + ',')
-		print("Writing: " + split_line[i])
+
+		output_file.write(split_line[i].strip() + ',')
+		#print("Writing: " + split_line[i])
 	output_file.seek(-1, 1)
 	output_file.write('\n')
 
