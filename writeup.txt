@@ -1,0 +1,8 @@
+
+
+
+
+The first visualization I did was graphing logitude and latitude. This seemed to me the most natural way of representing the data, as I could be looking at the accidents as if on a map. A problem I encountered was graphing thousands of points on a single plot without ending up with a mess. I decided to use k-means, then graph the cluster centers. Instead of just points I graph the number of accidents that cluster represents.
+
+
+The next question I considered was what effect the day of the week had on these accidents.

@@ -4,7 +4,8 @@ import numpy as np
 import matplotlib
 import matplotlib.pyplot as pyplot
 from sklearn import cluster
-#import gc
+import re
+import datetime
 
 
 # Takes a string. Return true iff it is a number
@@ -95,18 +96,18 @@ print(records)
 
 
 
-print("Converting to np matrix..")
+print("Converting to numpy matrix..")
 #records_matrix = np.matrix(records, dtype='bytes_')
 records_matrix = np.matrix(records)
-print("\nNormal np array:")
+print("\nmatrix:")
 print(records_matrix)
 print(type(records_matrix))
 print(records_matrix.dtype)
 
-print("Creating a transposed records_matrix..")
-records_matrix_transposed = records_matrix.getT()
-print("\nTransposed np array:")
-print(records_matrix_transposed)
+#print("Creating a transposed records_matrix..")
+#records_matrix_transposed = records_matrix.getT()
+#print("\nTransposed np array:")
+#print(records_matrix_transposed)
 
 
 #cov_matrix = np.cov(records_matrix, rowvar=False)
@@ -115,6 +116,11 @@ print(records_matrix_transposed)
 
 
 #gc.collect()
+
+
+
+#######################################################################
+# Long/Lat of the accidents
 
 """
 # Plot the long/lat of the accidents
@@ -128,8 +134,9 @@ axes.legend(["test legend"])
 pyplot.show()
 """
 
+"""
 # Next, decide how to plot a LARGE number of accidents: cluster points and display the clusters?
-k = 5
+k = 30
 kmeans = cluster.KMeans(n_clusters = k)
 # This won't work if longitude doesn't come right after
 #  latitude
@@ -153,8 +160,9 @@ highest_longitude = 0
 lowest_latitude = 0
 highest_latitude = 0
 for record in records:
-	latitude = line[index_of_attribute['LATITUDE']]
-	longitude = line[index_of_attribute['LONGITUDE']]
+	latitude = record[index_of_attribute['LATITUDE']]
+	longitude = record[index_of_attribute['LONGITUDE']]
+	print("Longitude = " + str(longitude))
 	if lowest_longitude == 0 or longitude < lowest_longitude:
 		lowest_longitude = longitude
 	if highest_longitude == 0 or longitude > highest_longitude:
@@ -164,18 +172,43 @@ for record in records:
 	if highest_latitude == 0 or latitude > highest_latitude:
 		highest_latitude = latitude
 
-
+print("lowest_latitude, highest_latitude, lowest_longitude, highest_longitude")
+print(lowest_latitude, highest_latitude, lowest_longitude, highest_longitude)
 # Plot the kmeans cluster centers with the number
 #  of points in the cluster
 figure, axes = pyplot.subplots(1, 1)
-axes.set_xlim(0, 5)
-axes.set_ylim(0, 5)
-for i in (1, 2, 3, 4):
-	axes.text(i, i, str(i), size=14)
+#axes.set_xlim(int(9*lowest_latitude), int(1.1*highest_latitude))
+#axes.set_ylim(int(9*lowest_longitude), int(1.1*highest_longitude))
+axes.set_xlim(lowest_latitude-.1, highest_latitude+.1)
+axes.set_ylim(lowest_longitude-.1, highest_longitude+.1)
+for i in range(k):
+	axes.text(kmeans.cluster_centers_[i][0], kmeans.cluster_centers_[i][1], str(num_points_in_cluster[i]), size=8)
 axes.legend(["test legend"])
 pyplot.show()
+"""
 
 
 
-#sc.fit()
+
+############################################################
+# Day of week stats, basic counting stats
+
+borough_enum = enums[index_of_attribute['BOROUGH']]
+num_accidents = len(records)
+
+accidents_dow = [0, 0, 0, 0, 0, 0, 0]
+accidents_total = 0
+ped_killed_dow = [0, 0, 0, 0, 0, 0, 0]
+ped_killed_total = 0
+bike_killed_dow = [0, 0, 0, 0, 0, 0, 0]
+bike_killed_total = 0
+
+
+for record in records:
+	#date_str = record[ index_of_attribute['DATE'] ]
+	match = re.match(r'(\d+)/(\d+)/(\d+)', record[ index_of_attribute['DATE'] ])
+	print("Record: " + str(record))
+	if match:
+		dow = datetime.date(match.groups[2], match.groups[0], match.groups[1]).weekday()
+		print("dow: " + str(dow))
 
