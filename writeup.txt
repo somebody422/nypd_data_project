@@ -2,7 +2,14 @@
 
 
 
+Before approaching the data, I had to do a few things. First of all the dataset is HUGE. Like really really huge. I didn't want to have to wait a long time to parse the set each time I ran my program, so I created a smaller version by randomly sampling. I then made a small script to clean the data. Cleaning involved throwing out attributes I didn't want, and invalid records
+
+
 The first visualization I did was graphing logitude and latitude. This seemed to me the most natural way of representing the data, as I could be looking at the accidents as if on a map. A problem I encountered was graphing thousands of points on a single plot without ending up with a mess. I decided to use k-means, then graph the cluster centers. Instead of just points I graph the number of accidents that cluster represents.
 
 
-The next question I considered was what effect the day of the week had on these accidents.
+The next question I considered was what effect the day of the week had on these accidents. I started by asking what days of the week had the most and least accidents. The weekend would have some effect, but what kind? After visualizing accident frequency, I found that most of the accidents happened during the middle of the week, then peaked on Friday. During the weekend (Sunday especially!) accidents went down.
+The next visualization was 
+
+
+

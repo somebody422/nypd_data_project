@@ -6,12 +6,16 @@ import re
 # Takes a look at the record, and decides if it should be
 #  kept or discarded
 def keepRecord(split_record, index_of_attribute):
-	print("\nkeepRecord: " + str(split_record))
-	print("Latitude = " + split_record[index_of_attribute['LATITUDE']])
-	print("Longitude = " + split_record[index_of_attribute['LONGITUDE']])
+	#print("\nkeepRecord: " + str(split_record))
+	#print("Latitude = " + split_record[index_of_attribute['LATITUDE']])
+	#print("Longitude = " + split_record[index_of_attribute['LONGITUDE']])
 	#if float(split_record[index_of_attribute['LATITUDE']]) == 0 or float(split_record[index_of_attribute['LONGITUDE']]) == 0:
+	if len(split_record) != len(index_of_attribute):
+		return False
 	if split_record[index_of_attribute['LATITUDE']] == '' or split_record[index_of_attribute['LONGITUDE']] == '':
-		print("Throwing away record: " + str(split_record))
+		#print("Throwing away record: " + str(split_record))
+		return False
+	if float(split_record[index_of_attribute['LONGITUDE']]) < -100:
 		return False
 	return True
 
@@ -52,8 +56,8 @@ raw_input_text = re.sub(r'\"\(([-0-9.]+), ([-0-9.]+)\)\"', r'(\1 \2)', raw_input
 # Figure out what the line separator is for this file
 num_newlines = len(re.findall(r'\n', raw_input_text))
 num_carriage_returns = len(re.findall(r'\r', raw_input_text))
-print("num_newlines = %d" % num_newlines)
-print("num_carriage_returns = %d" % num_carriage_returns)
+#print("num_newlines = %d" % num_newlines)
+#print("num_carriage_returns = %d" % num_carriage_returns)
 if num_newlines > num_carriage_returns:
 	line_separator = '\n'
 elif num_newlines < num_carriage_returns:
@@ -81,17 +85,18 @@ for i in range(len(split_attributes)):
 # Seek backwards one byte, to overwrite that last comma
 output_file.seek(-1, 1)
 output_file.write('\n')
-print("Indexes to use: " + str(attribute_indexes))
+#print("Indexes to use: " + str(attribute_indexes))
 
 # Create map of attribute name to attribute index
 index_of_attribute = {}
 for i in range(len(split_attributes)):
 	index_of_attribute[split_attributes[i]] = i
-print("\nIndexes:")
-print(index_of_attribute)
+#print("\nIndexes:")
+#print(index_of_attribute)
 
 # Iterate through remaining lines and parse all of the data entries.
 for line in lines[first_line_with_text+1:]:
+	if line == '': continue
 	split_line = line.split(',')
 	if not keepRecord(split_line, index_of_attribute):
 		continue
